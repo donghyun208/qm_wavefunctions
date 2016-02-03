@@ -43,7 +43,7 @@ angular.module('qmWaveApp')
         var watchlist;
         scope.$watchCollection(
           function() {
-            watchlist = [Timer.time, Plot.pitch, Plot.yaw];
+            watchlist = [Plot.pitch, Plot.yaw];
             if (scope.wave.constructor == Array) {
               for (var i=0; i<scope.wave.length; i++) {
                 watchlist.push(scope.wave[i].update)

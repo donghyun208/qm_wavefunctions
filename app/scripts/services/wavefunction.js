@@ -45,7 +45,6 @@ angular.module('qmWaveApp')
           function() { return [Timer.time, self.initPhase, self.mag]},
           function(nv, ov) {
             self.timeEvolve()
-            self.update += 1
           })
     }
 
@@ -74,6 +73,8 @@ angular.module('qmWaveApp')
             this._y[i] = this.mag / 100 * (this.re_proj * this.y0[i] + this.im_proj * this.z0[i]);
             this._z[i] = this.mag / 100* (this.im_proj * this.y0[i] - this.re_proj * this.z0[i]);
         }
+
+        this.update += 1
     }
 
     Eigenstate.prototype.getModulus = function(){
@@ -127,7 +128,6 @@ angular.module('qmWaveApp')
           },
           function(nv, ov) {
             self.timeEvolve()
-            self.update += 1
           })
     }
 
@@ -152,6 +152,8 @@ angular.module('qmWaveApp')
                 this._z[i] += this.eigenList[j]._z[i];
             }
         }
+
+        this.update += 1
     }
 
     Wavefunction.prototype.normalize = function(index) {
@@ -190,7 +192,6 @@ angular.module('qmWaveApp')
 
         setTimeout(function() {
             self.timeEvolve()
-            self.update += 1
             rootScope.$digest()
         })
     }
@@ -228,7 +229,6 @@ angular.module('qmWaveApp')
           function(nv, ov) {
             setTimeout(function() {
               self.timeEvolve()
-              self.update += 1
               rootScope.$digest()
             })
           })
@@ -243,6 +243,8 @@ angular.module('qmWaveApp')
         for (var i=0; i<l; i++){
             this._y[i] = Math.sqrt(Math.pow(this.superY[i], 2) + Math.pow(this.superZ[i], 2));
         }
+
+        this.update += 1
     }
 
     // Public API here
