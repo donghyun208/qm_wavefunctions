@@ -12,9 +12,8 @@ angular.module('qmWaveApp')
       templateUrl: 'views/phaseslider.html',
       restrict: 'E',
       scope: {wave: '='},
-      link: function postLink(scope, element, attrs) {
-        var wave = scope.wave;
-        scope.slider = {
+      controller: ['$scope', function($scope){
+        $scope.slider = {
           options: {
             floor: 0,
             ceil: 360,
@@ -23,6 +22,6 @@ angular.module('qmWaveApp')
             }
           }
         };
-      }
+      }]
     };
   });

@@ -12,9 +12,8 @@ angular.module('qmWaveApp')
       templateUrl: 'views/magnitudeslider.html',
       restrict: 'E',
       scope: {wave: '=', normalize:'='},
-      link: function postLink(scope, element, attrs) {
-        var wave = scope.wave;
-        scope.slider = {
+      controller: ['$scope', function($scope) {
+        $scope.slider = {
           options: {
             floor: 0,
             ceil: 100,
@@ -23,10 +22,10 @@ angular.module('qmWaveApp')
               return value / 100.0;
             },
             onChange: function() {
-              scope.wave.renormalize()
+              $scope.wave.renormalize()
             }
           }
         };
-      }
+      }]
     };
   });
