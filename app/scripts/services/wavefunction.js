@@ -185,7 +185,6 @@ angular.module('qmWaveApp')
                     this.eigenList[j].mag = Math.round(newMag);
                 }
             }
-            console.log(this.eigenList[j].mag)
         }
         var self = this;
 
