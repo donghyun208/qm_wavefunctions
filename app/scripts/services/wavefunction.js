@@ -37,7 +37,7 @@ angular.module('qmWaveApp')
         this.mag = 100
 
         // this.update is used to trigger Plot updates
-        this.update = true;
+        this.update = 1;
 
 
         var self = this;
@@ -45,7 +45,7 @@ angular.module('qmWaveApp')
           function() { return [Timer.time, self.initPhase, self.mag]},
           function(nv, ov) {
             self.timeEvolve()
-            self.update = !self.update
+            self.update += 1
           })
     }
 
@@ -106,7 +106,7 @@ angular.module('qmWaveApp')
         this._z = new Array(x.length);
 
         // this.update is used to trigger Plot updates
-        this.update = true;
+        this.update = 1;
 
         var self = this;
         var watchList;
@@ -127,7 +127,7 @@ angular.module('qmWaveApp')
           },
           function(nv, ov) {
             self.timeEvolve()
-            self.update = !self.update
+            self.update += 1
           })
     }
 
@@ -178,14 +178,22 @@ angular.module('qmWaveApp')
             if (j != index) {
                 if (residualProb == 0) {
                     var newMag = multiplicitiveFactor * this.eigenList[j].mag;
-                    this.eigenList[j].mag = remainingProb / (this.eigenList.length - 1)
+                    this.eigenList[j].mag = Math.round(remainingProb / (this.eigenList.length - 1) * 100)
                 }
                 else {
                     var newMag = multiplicitiveFactor * this.eigenList[j].mag;
-                    this.eigenList[j].mag = newMag;
+                    this.eigenList[j].mag = Math.round(newMag);
                 }
             }
+            console.log(this.eigenList[j].mag)
         }
+        var self = this;
+
+        setTimeout(function() {
+            self.timeEvolve()
+            self.update += 1
+            rootScope.$digest()
+        })
     }
 
 
@@ -199,7 +207,7 @@ angular.module('qmWaveApp')
         this._z = [];
 
         // this.update is used to trigger Plot updates
-        this.update = true;
+        this.update = 1;
 
         var l = this._x.length;
         for (var i=0; i<l; i++){
@@ -219,8 +227,11 @@ angular.module('qmWaveApp')
             return watchList;
           },
           function(nv, ov) {
-            self.timeEvolve()
-            self.update = !self.update
+            setTimeout(function() {
+              self.timeEvolve()
+              self.update += 1
+              rootScope.$digest()
+            })
           })
     }
 

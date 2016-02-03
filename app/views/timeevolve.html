@@ -1,5 +1,5 @@
 <div math>
-<h2>
+<!-- <h2>
     Time Evolution
 </h2>
 <br>
@@ -10,34 +10,37 @@ i\hbar\frac{\partial}{\partial t} \Psi(r,t) = \hat{H}\Psi(r,t)
 $$
 
 For time-independent Hamiltonians, the general solution is given as:
-<!-- $$
+$$
 \begin{align}
 i\hbar\frac{\partial}{\partial t} \Psi(r,t) &= \hat{H}\Psi(r,t)\\
 \frac{\partial}{\partial t} \Psi(r,t) &= -\frac{i}{\hbar}\hat{H}\Psi(r,t)
 \end{align}
 $$
- -->
+
 
 $$
 \Psi(r,t) = e^{-\frac{i}{\hbar}\hat{H}t}\Psi(r,0)\\
 $$
 where $\Psi(r,0)$ is the initial condition. This means if we know $\Psi(r,0)$, the state of our system at time $t=0$, and we know the Hamiltonian, we can know what the state of the system at any future time as well.
-
+ -->
 <br>
 <br>
 <br>
 
 <h3>
-Evolution of Particle in a Box Eigenstates
+Time Evolution of Particle in a Box Eigenstates
 </h3>
 
 <button ng-click="timeButton()" class="btn btn-primary">
     {{buttonText}}
 </button>
 
-<p>Eigenstates</p>
+<br>
+<br>
+<div class='container' style="background-color:#f6f6f6" >
+<h3>Eigenstates:</h3>
     <span perspective>
-<div ng-repeat="state in eigenstates" class="col-md-4">
+<div ng-repeat="state in eigenList" class="col-md-4">
     <p class="text-center">
         $\psi_{{state.number}}$
     </p>
@@ -55,17 +58,21 @@ Evolution of Particle in a Box Eigenstates
     </div>
 </div>
 </span perspective>
+</div>
+
+<div class="col-xs-12" style="height:70px;"></div>
+
 <span perspective>
 <div class="col-md-4">
-    <p>Superimposed Eigenstates</p>
-    <canvas-plot wave="eigenstates"></canvas-plot>
+    <label>Superimposed Eigenstates</label>
+    <canvas-plot wave="eigenList"></canvas-plot>
 </div>
 <div class="col-md-4">
-    <p>Superposition</p>
+    <label>Superposition</label>
     <canvas-plot wave="superposition"></canvas-plot>
 </div>
 <div class="col-md-4">
-    <p>Probability Density</p>
+    <label>Probability Density</label>
     <canvas-plot wave="modulus"></canvas-plot>
 </div>
 </span perspective>

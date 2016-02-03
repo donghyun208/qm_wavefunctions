@@ -3,47 +3,48 @@
 Superposition States:
 </h2>
 
-One of the postulates of quantum mechanics is that any superposition of eigenstates is an allowable wavefunction.
-Superposition states are linear combinations of eigenstates of the form:
+Any superposition of solutions is also a valid solution to the Time Dependent Schrodinger Equation.
+Therefore, we can write the general solution as:
 
 <div style="font-size: 133%;">
 $$
-\Psi(x) = c_1 \psi_1(x) + c_2 \psi_2(x) + c_3 \psi_3(x)
+\Psi(x) = c_1 \psi_1(x) + c_2 \psi_2(x) + c_3 \psi_3(x) ...
 $$
 </div>
 
-We will use $\Psi$ to denote a general state, and $\psi_n$ to denote the $n^{th}$ eigenstate.
+We will use $\Psi$ to denote the wavefunction and $\psi_n$ to denote the $n^{th}$ eigenstate.
 In general, the summation of states can run to infinity, but for now we will only consider superpositions constructed using the first three eigenstates.
 <br>
 <br>
 <br>
 
-<h4>
+<!-- <h4>
     Complex Plane
 </h4>
 The coefficients $c_n$ can be complex numbers
-
+ -->
 <h4>
     Normalization Principle
 </h4>
-The coefficients $c_n$ must also satisfy the normalization constraint.
+The coefficients $c_n$ must satisfy the normalization constraint, which requires:
+
+<div style="font-size: 133%;">
+$$
+\int_{-\infty}^\infty|\Psi(x)|^2 = 1 \\
+|c_1|^2 + |c_2|^2 + |c_3|^2= 1
+$$
+</div>
 
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
 
-
-<button ng-click="timeButton()" class="btn btn-primary">
-    {{buttonText}}
-</button>
-
-<p>Eigenstates</p>
-<div ng-repeat="state in eigenstates" class="col-md-4">
+<div class='container' style="background-color:#f6f6f6" >
+<h3>Eigenstates:</h3>
+<br>
+<div ng-repeat="state in eigenList" class="col-md-4">
     <span perspective>
-    <p class="text-center">
+    <p class="text-center" style="font-size: 133%;">
         $\psi_{{state.number}}$
     </p>
     <div class="center-block">
@@ -60,20 +61,41 @@ The coefficients $c_n$ must also satisfy the normalization constraint.
         <magnitude-slider wave="state"></phase-slider>
     </div>
 </div>
+</div>
 
-<div class="col-xs-12" style="height:100px;"></div>
+<div class="col-xs-12" style="height:70px;"></div>
 
 <span perspective>
+<h3>Superposition:</h3>
+
+<div style="font-size: 150%;" class="text-center">
+<span>$ \Psi(x) = $</span>
+<span>{{eigenList[0].mag / 100}} </span>
+<span>$ \psi_1(x) + $ </span>
+<span>{{eigenList[1].mag / 100}}</span>
+<span>$ \psi_2(x) + $</span>
+<span>{{eigenList[2].mag / 100}}</span>
+<span>$ \psi_3(x)$</span>
+</div>
+<br>
+<br>
+
 <div class="col-md-4">
-    <h5>Superimposed Eigenstates</h5>
-    <canvas-plot wave="eigenstates"></canvas-plot>
+    <p class="text-center" style="font-size: 150%;">
+        $\psi_1(x), \psi_2(x), \psi_3(x)$
+    </p>
+    <canvas-plot wave="eigenList"></canvas-plot>
 </div>
 <div class="col-md-4">
-    <h5>Superposition</h5>
+    <p class="text-center" style="font-size: 150%;">
+        $\Psi(x)$
+    </p>
     <canvas-plot wave="superposition"></canvas-plot>
 </div>
 <div class="col-md-4">
-    <h5>Probability Density</h5>
+    <p class="text-center" style="font-size: 150%;">
+        $|\Psi(x)|^2$
+    </p>
     <canvas-plot wave="modulus"></canvas-plot>
 </div>
 </span perspective>
