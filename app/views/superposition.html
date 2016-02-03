@@ -1,0 +1,77 @@
+<div math>
+<h2>
+Superposition States:
+</h2>
+
+One of the postulates of quantum mechanics is that any superposition of eigenstates is an allowable wavefunction.
+Superposition states are linear combinations of eigenstates of the form:
+
+<div style="font-size: 133%;">
+$$
+\Psi(x) = c_1 \psi_1(x) + c_2 \psi_2(x) + c_3 \psi_3(x)
+$$
+</div>
+
+We will use $\Psi$ to denote a general state, and $\psi_n$ to denote the $n^{th}$ eigenstate.
+In general, the summation of states can run to infinity, but for now we will only consider superpositions constructed using the first three eigenstates.
+<br>
+<br>
+<br>
+
+<h4>
+    Complex Plane
+</h4>
+The coefficients $c_n$ can be complex numbers
+
+<h4>
+    Normalization Principle
+</h4>
+The coefficients $c_n$ must also satisfy the normalization constraint.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<button ng-click="timeButton()" class="btn btn-primary">
+    {{buttonText}}
+</button>
+
+<p>Eigenstates</p>
+<div ng-repeat="state in eigenstates" class="col-md-4">
+    <span perspective>
+    <p class="text-center">
+        $\psi_{{state.number}}$
+    </p>
+    <div class="center-block">
+        <phase-plot wave="state"></phase-plot>
+    </div>
+    <canvas-plot wave="state"></canvas-plot>
+    </span perspective>
+    <div class="center-block">
+        <label>Initial Phase </label>
+        <phase-slider wave="state"></phase-slider>
+        <br>
+        <br>
+        <label>Magnitude </label>
+        <magnitude-slider wave="state"></phase-slider>
+    </div>
+</div>
+<span perspective>
+<div class="col-md-4">
+    <p>Superimposed Eigenstates</p>
+    <canvas-plot wave="eigenstates"></canvas-plot>
+</div>
+<div class="col-md-4">
+    <p>Superposition</p>
+    <canvas-plot wave="superposition"></canvas-plot>
+</div>
+<div class="col-md-4">
+    <p>Probability Density</p>
+    <canvas-plot wave="modulus"></canvas-plot>
+</div>
+</span perspective>
+</div math>

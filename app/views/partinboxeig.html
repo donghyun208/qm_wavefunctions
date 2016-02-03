@@ -1,0 +1,116 @@
+<math>
+<h2>
+1D Particle in an Infinite Potential Well
+</h2>
+
+The 1 dimensional particle in a box problem consists of a single particle described by the potential:
+$$V(x)=\left\{
+     \begin{array}{lr}
+       0: &  0 < x < l\\
+       \infty: & \mathrm{elsewhere}
+     \end{array}
+   \right.\\$$
+This particle is subject to an infintely high potential in the regions outside of the box, such that we can be sure the particle will never be found outside of this box.
+<br>
+<br>
+<br>
+<br>
+<h3>
+Solution:
+</h3>
+We need to first define the Hamiltonian for this problem. The Hamiltonian for a single particle in 1 dimension is:
+$$
+\hat{H} = -\frac{\hbar^2}{2m}\frac{\mathrm{d}^2}{\mathrm{d}x^2} + V(x)
+$$
+
+Since the probability of finding the particle outside of the box is zero, this means that $|\psi(x)|^2$ will be zero outside of the box (and also at its edges). Therefore, we can simplify our problem by only considering $\psi(x)$ between $0\leq x \leq l$, setting $V(x) = 0$, and enforcing the following boundary conditions:
+
+$$\psi(0)=0, \qquad \psi(l) = 0$$
+
+Next, we solve the Time Independent Schrodinger Equation for this problem, which requires that we find the eigenvalues and eigenvectors of $\hat{H}$. We will call the eigenvalues '$E$'.
+
+$$
+\begin{align}
+\hat{H}\psi(x) &= E\psi(x)\\
+-\frac{\hbar^2}{2m}\frac{\mathrm{d}^2}{\mathrm{d}x^2}\psi(x) &= E\psi(x)\\
+\frac{\mathrm{d}^2}{\mathrm{d}x^2}\psi(x) &= -\frac{2mE}{\hbar^2}\psi(x)
+\end{align}
+$$
+
+solving the differential equation above, we get:
+
+$$
+\begin{align}
+\psi(x) &= A\sin\left(\frac{\sqrt{2mE}}{\hbar} x\right) + B\cos\left(\frac{\sqrt{2mE}}{\hbar} x\right)
+\end{align}
+$$
+
+<br>
+<br>
+We apply the first boundary condition $\psi(0)=0$ and find that $B$ must be $0$.
+
+$$
+\begin{align}
+\psi(x) &= A\sin\left(\frac{\sqrt{2mE}}{\hbar} x\right)
+\end{align}
+$$
+
+<br>
+Next, we use the second boundary condition $\psi(l)=0$.
+$$
+\begin{align}
+\psi(l) &= A\sin\left(\frac{\sqrt{2mE}}{\hbar}l\right)\\
+0 &= A\sin\left(\frac{\sqrt{2mE}}{\hbar}l\right)\\
+\end{align}
+$$
+In order for our equation to satisfy the boundary condition $\psi(l)=0$, either $A=0$ (yielding a trivial solution), or the expression inside the sine function must be an integer multiple of $\pi$
+
+$$
+\frac{\sqrt{2mE}}{\hbar} l = n \pi\\
+E = \frac{\hbar^2 \pi^2 n^2}{2ml^2}
+$$
+<p class="center-block">
+Now we have our eigenvalues $E$ (indexed by $n$), and eigenfunctions $\psi_n(x)$, for integer values of $n$
+</p>
+$$
+\begin{align}
+\psi_n(x) &= A\sin\left(\frac{\sqrt{2mE_n}}{\hbar} x\right) & E_n &= \frac{\hbar^2 \pi^2 n^2}{2ml^2}
+\end{align}
+$$
+
+There are an infinite number of eigenvalues, one for every integer value of $n$. Note that $n=0$ again yields a trivial solution, and that a negative value of $n$ yields the same eigenvalue as a positive value of $n$. Therefore, we'll choose a convention where we only consider the positive integers of $n$ ($n=1,2,3...$)
+<br>
+<br>
+<br>
+
+<h3>
+Interpretation:
+</h3>
+The eigenvalues correspond to the possible energies that can be measured. The lowest possible energy is when $n=1$, and is called the ground state.
+
+<br>
+<br>
+<br>
+<br>
+
+<h4>
+Eigenstates:
+</h4>
+<div ng-repeat="state in eigenstates" class="col-md-4">
+    <p class="text-center">
+        $\psi_{{state.number}}(x)$
+    </p>
+    <canvas-plot wave="state" colorOption="'off'"></canvas-plot>
+</div>
+<br>
+<h4>
+Probability Density:
+</h4>
+<div ng-repeat="state in eigenstates" class="col-md-4">
+    <p class="text-center">
+        $|\psi_{{state.number}}(x)|^2$
+    </p>
+    <canvas-plot wave="state.getModulus()" colorOption="'off'"></canvas-plot>
+</div>
+<br>
+</math>

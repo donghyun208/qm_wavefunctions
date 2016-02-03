@@ -1,0 +1,70 @@
+<div math>
+<h2>
+    Time Evolution
+</h2>
+<br>
+The equation that governs time evolution in quantum mechanics is the Time Dependent Schrodinger Equation:
+
+$$
+i\hbar\frac{\partial}{\partial t} \Psi(r,t) = \hat{H}\Psi(r,t)
+$$
+
+For time-independent Hamiltonians, the general solution is given as:
+<!-- $$
+\begin{align}
+i\hbar\frac{\partial}{\partial t} \Psi(r,t) &= \hat{H}\Psi(r,t)\\
+\frac{\partial}{\partial t} \Psi(r,t) &= -\frac{i}{\hbar}\hat{H}\Psi(r,t)
+\end{align}
+$$
+ -->
+
+$$
+\Psi(r,t) = e^{-\frac{i}{\hbar}\hat{H}t}\Psi(r,0)\\
+$$
+where $\Psi(r,0)$ is the initial condition. This means if we know $\Psi(r,0)$, the state of our system at time $t=0$, and we know the Hamiltonian, we can know what the state of the system at any future time as well.
+
+<br>
+<br>
+<br>
+
+<h3>
+Evolution of Particle in a Box Eigenstates
+</h3>
+
+<button ng-click="timeButton()" class="btn btn-primary">
+    {{buttonText}}
+</button>
+
+<p>Eigenstates</p>
+    <span perspective>
+<div ng-repeat="state in eigenstates" class="col-md-4">
+    <p class="text-center">
+        $\psi_{{state.number}}$
+    </p>
+    <div class="center-block">
+        <phase-plot wave="state"></phase-plot>
+    </div>
+    <canvas-plot wave="state"></canvas-plot>
+    <div class="center-block">
+        <label>Initial Phase </label>
+        <phase-slider wave="state"></phase-slider>
+        <label>Magnitude </label>
+        <input class="form-control" id="magnitude" ng-model="state.mag" placeholder="magnitude">
+    </div>
+</div>
+</span perspective>
+<span perspective>
+<div class="col-md-4">
+    <p>Superimposed Eigenstates</p>
+    <canvas-plot wave="eigenstates"></canvas-plot>
+</div>
+<div class="col-md-4">
+    <p>Superposition</p>
+    <canvas-plot wave="superposition"></canvas-plot>
+</div>
+<div class="col-md-4">
+    <p>Probability Density</p>
+    <canvas-plot wave="modulus"></canvas-plot>
+</div>
+</span perspective>
+</div math>
