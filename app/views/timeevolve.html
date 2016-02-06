@@ -1,6 +1,6 @@
 <div math>
-<!-- <h2>
-    Time Evolution
+<h2>
+Time Evolution
 </h2>
 <br>
 The equation that governs time evolution in quantum mechanics is the Time Dependent Schrodinger Equation:
@@ -21,16 +21,35 @@ $$
 $$
 \Psi(r,t) = e^{-\frac{i}{\hbar}\hat{H}t}\Psi(r,0)\\
 $$
-where $\Psi(r,0)$ is the initial condition. This means if we know $\Psi(r,0)$, the state of our system at time $t=0$, and we know the Hamiltonian, we can know what the state of the system at any future time as well.
- -->
-<br>
-<br>
+where $\Psi(r,0)$ is the initial condition.
+This means if we know $\Psi(r,0)$, the state of our system at time $t=0$, and we know the Hamiltonian, we can know what the state of the system at any future time as well.
+The exponential operator $e^{-\frac{i}{\hbar}\hat{H}t}$ is called the time evolution operator, and satisfies:
+
+$$
+e^{-\frac{i}{\hbar}\hat{H}t} \psi_n(x,0) = e^{-\frac{i}{\hbar}E_nt} \psi_n(x,0)
+$$
+
+for the energy eigenstates $\psi_n$. (This can be shown to be true if you Taylor expand the time evolution operator, and apply the Time Independent Schrodinger Equation).
+
 <br>
 
-<h3>
-Time Evolution of Particle in a Box Eigenstates
-</h3>
+Now, we can write down the expression for an arbitrary  time-dependent wavefunction consisting of the first three eigenstates:
 
+<div style="font-size: 133%;">
+$$
+\Psi(x,t) = c_1e^{\frac{i}{\hbar} E_1 t} \psi_1(x) + c_2e^{\frac{i}{\hbar} E_2 t} \psi_2(x) + c_3e^{\frac{i}{\hbar} E_3 t} \psi_3(x)
+$$
+</div>
+
+Note that all of the time dependence is in the phase of the coefficients in front of each eigenstate.
+This means that time dependence of a wavefunction enters into our expression by changing the phase of each eigenstate, at a frequency proportional to the energy of that eigenstate.
+<br>
+<br>
+Try setting $c_2=0$ and $c_3=0$ to see that eigenstates are stationary in time.
+
+
+<br>
+<br>
 <button ng-click="timeButton()" class="btn btn-primary">
     {{buttonText}}
 </button>
@@ -60,26 +79,42 @@ Time Evolution of Particle in a Box Eigenstates
 </span perspective>
 </div>
 
-<div class="col-xs-12" style="height:70px;"></div>
+<div class="col-xs-12" style="height:40px;"></div>
 
 <span perspective>
 
-<h3>Superposition:</h3>
+<h3>Wavefunction:</h3>
+<div class="text-center">
 <superpos-eqn wave="superposition" style="font-size: 130%;" class="text-center"></superpos-eqn>
+<div>
 
 <br>
-<br>
 <div class="col-md-4">
-    <label>Superimposed Eigenstates</label>
+    <p class="text-center" style="font-size: 150%;">
+        $\psi_1(x), \psi_2(x), \psi_3(x)$
+    </p>
     <canvas-plot wave="eigenList"></canvas-plot>
+    <p>
+    Plot of all three eigenstates superimposed on top of each other.
+    </p>
 </div>
 <div class="col-md-4">
-    <label>Superposition</label>
+    <p class="text-center" style="font-size: 150%;">
+        $\Psi(x)$
+    </p>
     <canvas-plot wave="superposition"></canvas-plot>
+    <p>
+    Plot of the wavefunction.
+    </p>
 </div>
 <div class="col-md-4">
-    <label>Probability Density</label>
+    <p class="text-center" style="font-size: 150%;">
+        $|\Psi(x)|^2$
+    </p>
     <canvas-plot wave="modulus"></canvas-plot>
+    <p>
+    Plot of the wavefunction's probability density.
+    </p>
 </div>
 </span perspective>
 </div math>

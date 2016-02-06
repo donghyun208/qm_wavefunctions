@@ -1,10 +1,14 @@
 <span>$ \Psi(x,$</span>
-<span>{{Timer.time| number:0}}</span>
+<span style="width: 25px; display: inline-block">{{Timer.time| number:0}}</span>
 <span>$) = $</span>
 <span ng-repeat="state in wave.eigenList">
-    <span style="color:#003A70">{{state.mag / 100}}</span>
-    <span>exp(i*</span>
-    <span style="color:#d19000">{{state.currPhase | number:1}}</span>
-    <span>)$\psi_{{state.number}}(x)$ </span>
+    <span style="color:#3B7EA1">{{state.mag / 100}}</span>
+    <span>e<sup>i</sup></span>
+    <span style="color:#d19000; width: 25px; display: inline-block">
+        <sup>
+        {{(state.currPhase / 3.1415926 % 2)  | number:1}}𝜋
+        </sup>
+    </span>
+    <span>$\psi_{{state.number}}(x)$ </span>
     <span>{{$last ? '' : "$+$"}}</span>
 </span>
