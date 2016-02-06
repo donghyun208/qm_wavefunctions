@@ -14,7 +14,7 @@ angular.module('qmWaveApp')
     var startEvolution = function(){
       if (!angular.isDefined(timePropagate)) {
         timePropagate = $interval(function() {
-            timerObj.time += 0.3
+            timerObj.time += 0.075
         }, 15);   // 10ms -> 100fps
         timerObj.paused = false;
       }

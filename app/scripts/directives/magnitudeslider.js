@@ -13,6 +13,8 @@ angular.module('qmWaveApp')
       restrict: 'E',
       scope: {wave: '=', normalize:'='},
       controller: ['$scope', function($scope) {
+        $scope.color = '#3f7590'
+        $scope.mystyles = "rzslider .rz-pointer { background-color: " + $scope.color + "; }";
         $scope.slider = {
           options: {
             floor: 0,
@@ -26,6 +28,14 @@ angular.module('qmWaveApp')
             }
           }
         };
-      }]
+      }],
+      link: function(scope, element, attrs) {
+        setTimeout(function() {
+          var pointer = element[0].getElementsByClassName('rz-pointer')[0]
+          pointer.style['background-color'] = "#003A70"
+        })
+
+
+      }
     };
   });

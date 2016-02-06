@@ -9,6 +9,7 @@
  */
 angular.module('qmWaveApp')
   .controller('SuperpositionCtrl', ['PartInBox', 'Timer', '$scope', function (PartInBox, Timer, $scope) {
+    Timer.time = 0;
     $scope.eigenList = PartInBox.superposition.eigenList;
     $scope.superposition = PartInBox.superposition;
     $scope.modulus = PartInBox.modulus;

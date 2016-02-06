@@ -15,6 +15,7 @@ angular.module('qmWaveApp')
     //
     //
     //Eigenstate Class, which organizes an energy eigenstate's x, Re, Im parts, and stores the timeEvolve method.
+    rootScope.Math = window.Math;
     function Eigenstate(x, y, z, energy, quantum_number){
         this._x = x;
         this.y0 = y; //real part at t=0
@@ -29,6 +30,7 @@ angular.module('qmWaveApp')
 
         this.wavefunction;
 
+        this.currPhase = 0
         //intial of this eigenstate
         this.initPhase = 0
         // intial magnitude of this eigenstate (NOTE: ranges from 0-100 to
@@ -65,9 +67,9 @@ angular.module('qmWaveApp')
 
     Eigenstate.prototype.timeEvolve = function(){
 
-        var currPhase = this.initPhase * Math.PI / 180.0 + this.energy * Timer.time / 200;
-        this.re_proj = Math.cos(currPhase);
-        this.im_proj = -Math.sin(currPhase);
+        this.currPhase = this.initPhase * Math.PI / 180.0 + this.energy * Timer.time / 50;
+        this.re_proj = Math.cos(this.currPhase);
+        this.im_proj = -Math.sin(this.currPhase);
         var l = this._x.length;
         for (var i=0; i<l; i++){
             this._y[i] = this.mag / 100 * (this.re_proj * this.y0[i] + this.im_proj * this.z0[i]);

@@ -18,11 +18,27 @@ In general, the summation of states can run to infinity, but for now we will onl
 <br>
 <br>
 
-<!-- <h4>
+<h4>
     Complex Plane
 </h4>
-The coefficients $c_n$ can be complex numbers
- -->
+The coefficients $c_n$ can be complex numbers.
+One common way to reprsent complex numbers is to use a complex exponential function.
+
+$$
+\begin{align}
+c &= |c| e^{i \theta}\\
+&=|c| (\cos{\theta} + i \sin{\theta})
+\end{align}
+$$
+$$
+\begin{align}
+|c| &= \sqrt{a^2 + b^2} & \theta &= \cos^{-1}{\left(\frac{\mathrm{Re}(c)}{|c|}\right)}
+\end{align}
+$$
+
+<br>
+<br>
+
 <h4>
     Normalization Principle
 </h4>
@@ -41,7 +57,6 @@ $$
 
 <div class='container' style="background-color:#f6f6f6" >
 <h3>Eigenstates:</h3>
-<br>
 <div ng-repeat="state in eigenList" class="col-md-4">
     <span perspective>
     <p class="text-center" style="font-size: 133%;">
@@ -67,16 +82,8 @@ $$
 
 <span perspective>
 <h3>Superposition:</h3>
+<superpos-eqn wave="superposition" style="font-size: 130%;" class="text-center"></superpos-eqn>
 
-<div style="font-size: 150%;" class="text-center">
-<span>$ \Psi(x) = $</span>
-<span>{{eigenList[0].mag / 100}} </span>
-<span>$ \psi_1(x) + $ </span>
-<span>{{eigenList[1].mag / 100}}</span>
-<span>$ \psi_2(x) + $</span>
-<span>{{eigenList[2].mag / 100}}</span>
-<span>$ \psi_3(x)$</span>
-</div>
 <br>
 <br>
 

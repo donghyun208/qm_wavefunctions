@@ -13,6 +13,7 @@ angular.module('qmWaveApp')
     $scope.eigenList = PartInBox.superposition.eigenList;
     $scope.superposition = PartInBox.superposition;
     $scope.modulus = PartInBox.modulus;
+    $scope.Timer = Timer;
 
     $scope.buttonText = "Start Time Evolution";
 
