@@ -129,7 +129,9 @@ angular.module('qmWaveApp')
             return watchList;
           },
           function(nv, ov) {
-            self.timeEvolve()
+            setTimeout(function() {
+                self.timeEvolve()
+            })
           })
     }
 
