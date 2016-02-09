@@ -16,9 +16,12 @@ angular.module('qmWaveApp')
     var axisWidth = Plot.axisWidth;
     var uncoupledEigenstates = [];
 
+
     for (var i=0; i<=N; i++)
         xArray[i] = -axisWidth / 2 + i * axisWidth / N;
 
+    var v_list = makePartInBoxPotential(xArray);
+    var potential = new Wavefunction.Potential(v_list[0], v_list[1], v_list[2]);
     var waveBox = new Wavefunction.Wavefunction(xArray);
 
     for (var i=0; i < num_states; i++) {
@@ -50,7 +53,8 @@ angular.module('qmWaveApp')
     return {
         eigenstates: uncoupledEigenstates,
         superposition: waveBox,
-        modulus: modulus
+        modulus: modulus,
+        potential: potential
     }
   }]);
 
@@ -69,4 +73,16 @@ function makeStationaryPinBox(xArray, quantum_num){
         imWave[i] = 0;
     }
     return [realWave, imWave]
+}
+
+function makePartInBoxPotential(xArray){
+    /** this only runs once, at the begining of the simulation, since they are stationary. **/
+    var height = 50;
+
+    var l = xArray.length;
+    var x = [xArray[0], xArray[0], xArray[l-1], xArray[l-1]]
+    var real = [height, 0, 0, height]
+    var im = [0, 0, 0, 0]
+
+    return [x, real, im]
 }

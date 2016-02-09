@@ -14,5 +14,6 @@ angular.module('qmWaveApp')
     $scope.eigenList = PartInBox.superposition.eigenList;
     $scope.superposition = PartInBox.superposition;
     $scope.modulus = PartInBox.modulus;
+    $scope.potential = PartInBox.potential;
 
   }]);

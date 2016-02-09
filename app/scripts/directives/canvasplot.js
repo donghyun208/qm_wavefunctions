@@ -11,7 +11,7 @@ angular.module('qmWaveApp')
     return {
       templateUrl: 'views/canvasplot.html',
       restrict: 'E',
-      scope: {wave: '=', colorOption: '='},
+      scope: {wave: '=', potential: '=', colorOption: '='},
       link: function postLink(scope, element, attrs) {
         var ctx = element.children()[0].getContext('2d')
         // ctx.fillStyle = "rgba(0,0,0,0)";
@@ -27,15 +27,19 @@ angular.module('qmWaveApp')
         var update = function() {
           ctx.clearRect(0, 0, Plot.canvasWidth, Plot.canvasHeight);
           Plot.drawAxis(ctx)
+          if (angular.isDefined(scope.potential)) {
+            Plot.drawFcn(ctx, scope.potential.getVectors())
+          }
+
           if (scope.wave.constructor == Array) {
             for (var i=0; i<scope.wave.length; i++) {
               var vectors = scope.wave[i].getVectors();
-              Plot.drawSingleFcn(ctx, vectors, scope.colorOption)
+              Plot.drawWavefcn(ctx, vectors, scope.colorOption)
             }
           }
           else {
             var vectors = scope.wave.getVectors();
-            Plot.drawSingleFcn(ctx, vectors, scope.colorOption)
+            Plot.drawWavefcn(ctx, vectors, scope.colorOption)
           }
         }
         update()
@@ -55,7 +59,9 @@ angular.module('qmWaveApp')
             return watchlist;
           },
           function(nv, ov) {
-            update()
+            setTimeout(function() {
+              update()
+            })
           })
       }
     };

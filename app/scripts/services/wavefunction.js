@@ -16,6 +16,17 @@ angular.module('qmWaveApp')
     //
     //Eigenstate Class, which organizes an energy eigenstate's x, Re, Im parts, and stores the timeEvolve method.
     rootScope.Math = window.Math;
+
+    function Potential(x, y, z) {
+        this._x = x
+        this._y = y
+        this._z = z
+    }
+
+    Potential.prototype.getVectors = function(){
+        return [this._x, this._y, this._z]
+    }
+
     function Eigenstate(x, y, z, energy, quantum_number){
         this._x = x;
         this.y0 = y; //real part at t=0
@@ -53,17 +64,6 @@ angular.module('qmWaveApp')
     Eigenstate.prototype.getVectors = function(){
         return [this._x, this._y, this._z]
     }
-
-    // Eigenstate.prototype.changePhase = function(newPhase){
-    //     // expected newPhase to be in degrees. change it to radians
-    //     if (isNaN(parseFloat(newPhase)) || !isFinite(newPhase)) {
-    //         this.initPhase = 0
-    //     }
-    //     else {
-    //         this.initPhase = newPhase
-    //     }
-    //     console.log(this.initPhase)
-    // }
 
     Eigenstate.prototype.timeEvolve = function(){
 
@@ -255,7 +255,8 @@ angular.module('qmWaveApp')
     return {
       Eigenstate: Eigenstate,
       Wavefunction: Wavefunction,
-      Modulus: Modulus
+      Modulus: Modulus,
+      Potential: Potential
     };
   }]);
 

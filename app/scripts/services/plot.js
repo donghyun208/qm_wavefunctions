@@ -20,8 +20,6 @@ angular.module('qmWaveApp')
     this.phaseOriginY = 40;
     this.phaseRadius = 35;
 
-
-
     this.axisWidth = 200;
 
     this.theta = 0.0;
@@ -33,21 +31,29 @@ angular.module('qmWaveApp')
     var newX = [1.0, 0.0, 0.0];
     var newY = [0.0, 1.0, 0.0];
     var newZ = [0.0, 0.0, 1.0];
+
     this.rotatedFrame = [newX, newY, newZ];
 
     var self = this;
     rootScope.$watchCollection(
       function() { return [self.pitch, self.yaw]},
       function(nv, ov) {
-        var rot_mat = rot_mat_angle(1, 0, 0, self.pitch);
-        // var rot_mat = rot_mat_angle(self.rotatedFrame[0][0], self.rotatedFrame[0][1], self.rotatedFrame[0][2], self.pitch);
-        var newZ = apply_mat(rot_mat, self.rotatedFrame[2])
-        var newY = apply_mat(rot_mat, self.rotatedFrame[1])
-        var newX = apply_mat(rot_mat, self.rotatedFrame[0])
-        var rot_mat = rot_mat_angle(self.rotatedFrame[1][0], self.rotatedFrame[1][1], self.rotatedFrame[1][2], self.yaw);
-        var newZ = apply_mat(rot_mat, newZ)
-        var newY = apply_mat(rot_mat, newY)
-        var newX = apply_mat(rot_mat, newX)
+        if (self.pitch === "reset" || self.yaw === "reset") {
+            var newX = [1.0, 0.0, 0.0];
+            var newY = [0.0, 1.0, 0.0];
+            var newZ = [0.0, 0.0, 1.0];
+        }
+        else {
+            var rot_mat = rot_mat_angle(1, 0, 0, self.pitch);
+            // var rot_mat = rot_mat_angle(self.rotatedFrame[0][0], self.rotatedFrame[0][1], self.rotatedFrame[0][2], self.pitch);
+            var newZ = apply_mat(rot_mat, self.rotatedFrame[2])
+            var newY = apply_mat(rot_mat, self.rotatedFrame[1])
+            var newX = apply_mat(rot_mat, self.rotatedFrame[0])
+            var rot_mat = rot_mat_angle(self.rotatedFrame[1][0], self.rotatedFrame[1][1], self.rotatedFrame[1][2], self.yaw);
+            var newZ = apply_mat(rot_mat, newZ)
+            var newY = apply_mat(rot_mat, newY)
+            var newX = apply_mat(rot_mat, newX)
+        }
 
         self.rotatedFrame = [newX, newY, newZ];
         self.theta =  Math.acos(newZ[2])
@@ -62,77 +68,60 @@ angular.module('qmWaveApp')
         var startZ = -50;
         var endZ = 50;
 
-        //X-axis
+        //X-axis  (black)
         var lineStart = this.coord2plot(startX, 0, 0);
         var lineEnd = this.coord2plot(endX, 0, 0);
         // console.log(lineStart, lineEnd)
+        ctx.strokeStyle = "#000000";
         drawPath(ctx, lineStart[0], lineStart[1], lineEnd[0], lineEnd[1]);
 
-        //Y-axis
+        //Y-axis (grey)
+        ctx.strokeStyle = "#A9A9A9";
         lineStart = this.coord2plot(0, startY, 0);
         lineEnd = this.coord2plot(0, endY, 0);
         drawPath(ctx, lineStart[0], lineStart[1], lineEnd[0], lineEnd[1]);
 
-        //Z-axis
+        //Z-axis (grey)
         lineStart = this.coord2plot(0, 0, startZ);
         lineEnd = this.coord2plot(0, 0, endZ);
         drawPath(ctx, lineStart[0], lineStart[1], lineEnd[0], lineEnd[1]);
+        ctx.strokeStyle = "#000000";
     }
 
-    this.drawSingleFcn = function(ctx, vectors, colorOption) {
+    this.drawFcn = function(ctx, vectors) {
+        var vecX = vectors[0];
+        var vecY = vectors[1];
+        var vecZ = vectors[2];
+        var l = vecX.length;
+        var x, y, z, plotCoord;
+
+        ctx.strokeStyle = "#000000";
+        for (var i=0; i<l; i++) {
+            x = vecX[i];
+            y = vecY[i];
+            z = vecZ[i];
+            plotCoord = this.coord2plot(x, y, z);
+
+            if (i === 0) {
+                ctx.beginPath();
+                ctx.moveTo(plotCoord[0], plotCoord[1]);
+            }
+            else {
+                ctx.lineTo(plotCoord[0], plotCoord[1]);
+            }
+        }
+        ctx.stroke();
+        ctx.closePath();
+        ctx.strokeStyle = "#000000";
+    }
+
+    this.drawWavefcn = function(ctx, vectors, colorOption) {
         //newX, newY, newZ are the unit vector positions of the rotated frame in terms of the fixed fram unit vector positions of the rotated frame in terms of the fixed frame.
         //ie. if the graph frame starts at x=[1,0,0], y=[0,1,0], z=[0,0,1], upon rotation of the view, these three vectors will rotate.
         var vecX = vectors[0];
         var vecY = vectors[1];
         var vecZ = vectors[2];
         var l = vecX.length;
-
-        // //Loops over every "x" point in a wavefunction
-        // var plotCoordSaved = [];
-        // for (var i=0; i<l; i++) {
-        //     var x = vecX[i];
-        //     var y = vecY[i];
-        //     var z = vecZ[i];
-
-        //     var phase = Math.PI + Math.atan2(-z, -y); // [0,2pi]
-        //     var color = Colorwheel.getColor(phase);
-        //     var plotCoord = this.coord2plot(x, y, z);
-        //     plotCoordSaved.push(plotCoord);
-
-        //     if (i != 0)
-        //         ctx.lineTo(plotCoord[0], plotCoord[1]);
-        //     else {
-        //         //if this is the first point, begin drawing the path
-        //         ctx.beginPath();
-        //         ctx.strokeStyle = "#000000";
-        //         ctx.moveTo(plotCoord[0], plotCoord[1]);
-        //     }
-        // }
-        // ctx.stroke();
-        // ctx.closePath();
-
-        // for (var i=0; i<l; i++) {
-        //     //every 5 points, drop a line down to the x axis
-        //     if (Math.round(i) % 3 == 0){
-        //         var plotCoord = plotCoordSaved[i];
-        //         // console.log(plotCoord)
-        //         var x = vecX[i];
-        //         var y = vecY[i];
-        //         var z = vecZ[i];
-
-        //         var phase = Math.PI + Math.atan2(-z, -y); // [0,2pi]
-        //         var color = Colorwheel.getColor(phase);
-
-        //         ctx.beginPath();
-        //         ctx.strokeStyle = color;
-        //         ctx.moveTo(plotCoord[0], plotCoord[1]);
-        //         var projX = this.coord2plot(x, 0, 0);
-        //         ctx.lineTo(projX[0], projX[1]);
-        //         ctx.stroke();
-        //         ctx.closePath();
-        //     }
-        // }
-        // ctx.strokeStyle = "#000000";
 
         //Loops over every "x" point in a wavefunction
         var x, y, z, plotCoord, projX, phase, color, prevColor;
@@ -145,7 +134,7 @@ angular.module('qmWaveApp')
 
             plotCoord = this.coord2plot(x, y, z);
 
-            if (Math.round(i) % 3 == 0){
+            if (Math.round(i) % 2 == 0){
                 phase = Math.PI + Math.atan2(-z, -y); // [0,2pi]
                 if (colorOption == 'off') {
                     color = "#000000"
