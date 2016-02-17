@@ -28,13 +28,16 @@ angular.module('qmWaveApp')
       Timer.time = 0;
     }
     $scope.active = function(route) {
-    return $state.is(route);
+      return $state.is(route);
+    };
+    $scope.switchRoute = function(route) {
+      $state.go(route)
     };
 
     $scope.tabs = [
-        { heading: "Particle in a Box", route:"demo.box", active:false }, // Tab 1
-        { heading: "Harmonic Oscillator", route:"demo.ho", active:false }, // Tab 2
-        { heading: "Particle in a Ring", route:"demo.ring", active:false }, // Tab 3
+        { heading: "Particle in a Box", route:"demo.box", active:false },
+        { heading: "Harmonic Oscillator", route:"demo.ho", active:false },
+        { heading: "Particle in a Ring", route:"demo.ring", active:false },
     ];
 
     $scope.$on("$stateChangeSuccess", function() { // Keep the right tab highlighted if the URL changes.
