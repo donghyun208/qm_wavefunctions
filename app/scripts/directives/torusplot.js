@@ -2,36 +2,33 @@
 
 /**
  * @ngdoc directive
- * @name qmWaveApp.directive:canvasPlot
+ * @name qmWaveApp.directive:torusPlot
  * @description
- * # canvasPlot
+ * # torusPlot
  */
 angular.module('qmWaveApp')
-  .directive('canvasPlot', ['Timer', 'Plot', function (Timer, Plot) {
+  .directive('torusPlot', ['Timer', 'Plot', function (Timer, Plot) {
     return {
       templateUrl: 'views/canvasplot.html',
       restrict: 'E',
-      scope: {wave: '=', potential: '=', colorOption: '='},
+      scope: {wave: '=', colorOption: '='},
       link: function postLink(scope, element, attrs) {
         var ctx = element.children()[0].getContext('2d')
         ctx.lineWidth = 2.5;
 
         var update = function() {
           ctx.clearRect(0, 0, Plot.canvasWidth, Plot.canvasHeight);
-          Plot.drawAxis(ctx)
-          if (angular.isDefined(scope.potential)) {
-            Plot.drawFcn(ctx, scope.potential.getVectors())
-          }
+          Plot.drawAxisTorus(ctx)
 
           if (scope.wave.constructor == Array) {
             for (var i=0; i<scope.wave.length; i++) {
               var vectors = scope.wave[i].getVectors();
-              Plot.drawWavefcn(ctx, vectors, scope.colorOption)
+              Plot.drawWavefcnTorus(ctx, vectors, scope.colorOption)
             }
           }
           else {
             var vectors = scope.wave.getVectors();
-            Plot.drawWavefcn(ctx, vectors, scope.colorOption)
+            Plot.drawWavefcnTorus(ctx, vectors, scope.colorOption)
           }
         }
         update()

@@ -5,7 +5,7 @@
  * @name qmWaveApp.PartInBox
  * @description
  * # PartInBox
- * Factory in the qmWaveApp.
+ * Service in the qmWaveApp.
  */
 angular.module('qmWaveApp')
   .service('PartInBox', ['Wavefunction', 'Plot', function (Wavefunction, Plot) {
@@ -23,12 +23,9 @@ angular.module('qmWaveApp')
     var v_list = makePartInBoxPotential(xArray);
     var potential = new Wavefunction.Potential(v_list[0], v_list[1], v_list[2]);
     var waveBox = new Wavefunction.Wavefunction(xArray);
+    var waveBox2 = new Wavefunction.Wavefunction(xArray);
 
     for (var i=0; i < num_states; i++) {
-        // var en = i + 0.5;
-        // var soln = makeStationaryHO(xArray, i);
-        // soln = new Wavefunction.Eigenstate(xArray, soln[0], soln[1], en, i + 1);
-        // waveHO.eigenList.push(soln);
 
         // soln = makeStationaryPinRing(xArray, i-3);
         // en = Math.pow(i - 3, 2);
@@ -41,19 +38,22 @@ angular.module('qmWaveApp')
         var eigCopy = new Wavefunction.Eigenstate(xArray, soln[0], soln[1], en, i + 1);
         waveBox.addState(eig);
         uncoupledEigenstates.push(eigCopy)
+
+        if (i<2) {
+          waveBox2.addState(eig);
+        }
     }
     waveBox.normalize()
     var modulus = new Wavefunction.Modulus(waveBox);
 
-    // for (var i=0; i < num_states; i++){
-    //     plots[i+3].fcnList = [waveBox.eigenList[i]];
-    // }
-    // setInterval(function () { draw(param, plots); }, 30);             // drawing loop 1/20th second
-
+    waveBox2.normalize()
+    var modulus2 = new Wavefunction.Modulus(waveBox2);
     return {
         eigenstates: uncoupledEigenstates,
         superposition: waveBox,
+        superposition2: waveBox2,
         modulus: modulus,
+        modulus2: modulus2,
         potential: potential
     }
   }]);

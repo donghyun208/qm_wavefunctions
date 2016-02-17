@@ -42,19 +42,18 @@
           <!-- <div class="collapse navbar-collapse" id="js-navbar-collapse"> -->
 
             <ul class="nav navbar-nav">
-              <li ng-class="{ active: isActive('/part-box')}" ><a ng-href="#/part-box">Particle in a Box</a></li>
-              <li ng-class="{ active: isActive('/superposition')}"><a ng-href="#/superposition">Superposition</a></li>
-              <li ng-class="{ active: isActive('/time-evolve')}"><a ng-href="#/time-evolve">Time Evolution</a></li>
-              <li ng-class="{ active: isActive('/contact')}"><a ng-href="#/contact">Contact</a></li>
+              <li ng-class="{ active: isActive('/part-box')}" ><a ui-sref="part-box">Particle in a Box</a></li>
+              <li ng-class="{ active: isActive('/superposition')}"><a ui-sref="superposition">Superposition</a></li>
+              <li ng-class="{ active: isActive('/time-evolve')}"><a ui-sref="time-evolve">Time Evolution</a></li>
+              <li ng-class="{ active: isActive('/demo')}"><a ui-sref="demo.box">Demos</a></li>
+              <li ng-class="{ active: isActive('/contact')}"><a ui-sref="contact">Contact</a></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container">
-    <div ng-view=""></div>
-    </div>
+    <div ui-view></div>
 
     <div class="footer">
       <div class="container">
@@ -105,6 +104,8 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -116,10 +117,18 @@
         <script src="scripts/services/partinbox.js"></script>
         <script src="scripts/services/plot.js"></script>
         <script src="scripts/services/colorwheel.js"></script>
+        <script src="scripts/services/ho.js"></script>
+        <script src="scripts/services/partstep.js"></script>
+        <script src="scripts/services/ring.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/partinboxeig.js"></script>
         <script src="scripts/controllers/superposition.js"></script>
         <script src="scripts/controllers/timeevolve.js"></script>
+        <script src="scripts/controllers/demo.js"></script>
+        <script src="scripts/controllers/hodemo.js"></script>
+        <script src="scripts/controllers/boxdemo.js"></script>
+        <script src="scripts/controllers/stepdemo.js"></script>
+        <script src="scripts/controllers/ringdemo.js"></script>
         <script src="scripts/directives/canvasplot.js"></script>
         <script src="scripts/directives/perspective.js"></script>
         <script src="scripts/directives/phaseplot.js"></script>
@@ -128,6 +137,7 @@
         <script src="scripts/directives/magnitudeslider.js"></script>
         <script src="scripts/directives/superposeqn.js"></script>
         <script src="scripts/directives/mathjaxbind.js"></script>
+        <script src="scripts/directives/torusplot.js"></script>
         <!-- endbuild -->
 </body>
 </html>

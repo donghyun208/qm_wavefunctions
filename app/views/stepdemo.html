@@ -1,0 +1,87 @@
+<div math>
+<div style="font-size: 130%;">
+$$
+\begin{align*}
+\hat{H} &= -\frac{\hbar^2}{2m}\frac{\mathrm{d}^2}{\mathrm{d}x^2} + V(x)
+&
+V(x) &=\left\{
+     \begin{array}{lr}
+       0: &  x < 0\\
+       h: &  x \geq 0
+     \end{array}
+   \right.
+\end{align*}
+$$
+</div>
+<br>
+<br>
+<div class='container' style="background-color:#f6f6f6" >
+<h3>Eigenstates:</h3>
+    <span perspective>
+<div ng-repeat="state in eigenList" class="col-md-4">
+    <p class="text-center">
+        $\psi_{ {{state.number}} }$
+    </p>
+    <div class="center-block">
+        <phase-plot wave="state"></phase-plot>
+    </div>
+    <canvas-plot wave="state" potential="potential"></canvas-plot>
+    <div class="center-block">
+        <label>Initial Phase </label>
+        <phase-slider wave="state"></phase-slider>
+        <br>
+        <br>
+        <label>Magnitude </label>
+        <magnitude-slider wave="state"></phase-slider>
+    </div>
+</div>
+</span perspective>
+</div>
+
+<div class="col-xs-12" style="height:40px;"></div>
+
+<span perspective>
+
+<h3>Wavefunction:</h3>
+<div class="text-center">
+<superpos-eqn wave="superposition" style="font-size: 130%;" class="text-center"></superpos-eqn>
+<div>
+
+<br>
+<div class="col-md-4">
+    <p class="text-center" style="font-size: 150%;">
+        $\psi_1(x), \psi_2(x), \psi_3(x)$
+    </p>
+    <canvas-plot wave="eigenList" potential="potential"></canvas-plot>
+    <p>
+    Plot of all three eigenstates superimposed on top of each other.
+    </p>
+</div>
+<div class="col-md-4">
+    <p class="text-center" style="font-size: 150%;">
+        $\Psi(x)$
+    </p>
+    <canvas-plot wave="superposition" potential="potential"></canvas-plot>
+    <p>
+    Plot of the wavefunction.
+    </p>
+</div>
+<div class="col-md-4">
+    <p class="text-center" style="font-size: 150%;">
+        $|\Psi(x)|^2$
+    </p>
+    <canvas-plot wave="modulus" potential="potential"></canvas-plot>
+    <p>
+    Plot of the wavefunction's probability density.
+    </p>
+</div>
+</span perspective>
+</div math>
+
+<div class="col-xs-12" style="height:40px;"></div>
+<div class="text-center">
+<nav>
+  <ul class="pager">
+    <li class="previous"><a href="#/superposition">Prev</a></li>
+  </ul>
+</nav>

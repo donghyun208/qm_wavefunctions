@@ -11,7 +11,9 @@
     "angular-sanitize": "^1.4.0",
     "angular-touch": "^1.4.0",
     "d3": "3.5.13",
-    "angularjs-slider": "*"
+    "angularjs-slider": "*",
+    "ui-router": "*",
+    "angular-bootstrap": "1.1.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

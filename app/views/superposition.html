@@ -1,10 +1,11 @@
+<div class="container">
 <div math>
 <h2>
 Superposition States:
 </h2>
 
-Any superposition of solutions is also a valid solution to the Time Dependent Schrodinger Equation.
-Therefore, we can write the general solution as:
+Any linear superposition of solutions is also a valid solution to the Time Dependent Schrodinger Equation.
+Therefore, we can write the general solution as a linear sum of energy eigenstates each weighted by a coefficient:
 
 <div style="font-size: 133%;">
 $$
@@ -13,7 +14,7 @@ $$
 </div>
 
 We will use $\Psi$ to denote the wavefunction and $\psi_n$ to denote the $n^{th}$ eigenstate.
-In general, the summation of states can run to infinity, but for now we will only consider superpositions constructed using the first three eigenstates.
+In general, the summation of states can run to infinity.
 <br>
 <br>
 <br>
@@ -38,8 +39,9 @@ $$
 \end{align}
 $$
 In this notation, $\theta$ is called the phase, and $|c|$ is the modulus.
-This notation is convenient in QM because now we can easily take the modulus squared to obtain probabilities, and time dependence happens through the changing phases.
+This notation is convenient in QM because now we can easily take the modulus squared to obtain probabilities.
 
+<br>
 <br>
 <br>
 
@@ -54,19 +56,20 @@ $$
 |c_1|^2 + |c_2|^2 + |c_3|^2= 1
 $$
 </div>
-
+<br>
+<br>
+<br>
 <h3>
-    Interference Patterns
+    Superposition State Example
 </h3>
-Now, we can write down an expression for a wavefunction that consists of contributions from the first three particle in a box eigenstates.
+Now, we can write down an expression for a wavefunction that consists of contributions from the first two particle in a box eigenstates.
 
 <div style="font-size: 133%;">
 $$
-\Psi(x,0) = |c_1|e^{i\theta_1} \psi_1(x) + |c_2|e^{i\theta_2} \psi_2(x) + |c_3|e^{i\theta_3} \psi_3(x)
+\Psi(x,0) = |c_1|e^{i\theta_1} \psi_1(x) + |c_2|e^{i\theta_2} \psi_2(x)
 $$
 </div>
 Below is a demo to explore how changing the coefficients $c_n$ changes the wavefunction.
-Note how interference patterns occur as a natural consequence of adding positive, negative, and complex numbers together.
 You can click and drag the plots to get a better perspective of the complex plane.
 In these plots, the horizontal axis is the x-axis, and the other 2 axes correspond to the complex plane.
 
@@ -75,7 +78,7 @@ In these plots, the horizontal axis is the x-axis, and the other 2 axes correspo
 
 <div class='container' style="background-color:#f6f6f6" >
 <h3>Eigenstates:</h3>
-<div ng-repeat="state in eigenList" class="col-md-4">
+<div ng-repeat="state in eigenList" class="col-md-4 col-md-offset-1">
     <span perspective>
     <p class="text-center" style="font-size: 133%;">
         $\psi_{{state.number}}$
@@ -108,20 +111,20 @@ In these plots, the horizontal axis is the x-axis, and the other 2 axes correspo
 <br>
 <div class="col-md-4">
     <p class="text-center" style="font-size: 150%;">
-        $\psi_1(x), \psi_2(x), \psi_3(x)$
+        $\psi_1(x), \psi_2(x)$
     </p>
     <canvas-plot wave="eigenList" potential="potential"></canvas-plot>
     <p>
-    Plot of all three eigenstates superimposed on top of each other.
+    Plot of both eigenstates superimposed on top of each other.
     </p>
 </div>
 <div class="col-md-4">
     <p class="text-center" style="font-size: 150%;">
-        $\Psi(x)$
+        $\Psi(x, 0)$
     </p>
     <canvas-plot wave="superposition" potential="potential"></canvas-plot>
     <p>
-    Plot of the wavefunction.
+    Plot of the wavefunction. Note how interference occurs as a consequence of adding complex valued waves together.
     </p>
 </div>
 <div class="col-md-4">
@@ -133,10 +136,14 @@ In these plots, the horizontal axis is the x-axis, and the other 2 axes correspo
     Plot of the wavefunction's probability density.
     </p>
 </div>
+
 </span perspective>
 </div math>
 
 <div class="col-xs-12" style="height:40px;"></div>
+
+
+
 <div class="text-center">
 <nav>
   <ul class="pager">
@@ -144,4 +151,5 @@ In these plots, the horizontal axis is the x-axis, and the other 2 axes correspo
     <li class="next"><a href="#/time-evolve">Next</a></li>
   </ul>
 </nav>
+</div>
 </div>

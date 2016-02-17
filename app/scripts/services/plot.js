@@ -21,6 +21,7 @@ angular.module('qmWaveApp')
     this.phaseRadius = 35;
 
     this.axisWidth = 200;
+    this.radius = 70;
 
     this.theta = 0.0;
     this.phi = -0.0;
@@ -86,6 +87,30 @@ angular.module('qmWaveApp')
         lineEnd = this.coord2plot(0, 0, endZ);
         drawPath(ctx, lineStart[0], lineStart[1], lineEnd[0], lineEnd[1]);
         ctx.strokeStyle = "#000000";
+    }
+
+    this.drawAxisTorus = function(ctx) {
+        // MODIFTY
+        var radius = this.radius;
+
+        var startY = -50;
+        var endY = 50;
+        var startZ = -50;
+        var endZ = 50;
+
+        //The x axis of the wavefunction  maps onto a cirle about the origin now.
+        var N = 50;
+        this.drawCircle3D(ctx, radius, N)
+
+        //Y-axis
+        var lineStart = this.coord2plot(-radius, startY, 0);
+        var lineEnd = this.coord2plot(-radius, endY, 0);
+        drawPath(ctx, lineStart[0], lineStart[1], lineEnd[0], lineEnd[1]);
+
+        //Z-axis
+        lineStart = this.coord2plot(startZ - radius, 0, 0);
+        lineEnd = this.coord2plot(endZ - radius, 0, 0);
+        drawPath(ctx, lineStart[0], lineStart[1], lineEnd[0], lineEnd[1]);
     }
 
     this.drawFcn = function(ctx, vectors) {
@@ -169,6 +194,63 @@ angular.module('qmWaveApp')
         }
         ctx.stroke();
         ctx.closePath();
+        ctx.strokeStyle = "#000000";
+    }
+
+    this.drawWavefcnTorus = function(ctx, vectors, colorOption){
+        var vecX = vectors[0]
+        var vecY = vectors[1]
+        var vecZ = vectors[2]
+        var l = vecX.length;
+
+        var torusCoord = this.cartesian2torus(vecX, vecY, vecZ);
+        var x, y, z, plotCoord, projX, phase, color, prevColor;
+
+        ctx.strokeStyle = "#000000";
+        for (var i=0; i<l; i++) {
+            x = torusCoord[0][i];
+            y = torusCoord[1][i];
+            z = torusCoord[2][i];
+
+            plotCoord = this.coord2plot(x, y, z);
+
+            if (Math.round(i) % 2 == 0){
+                phase = Math.PI + Math.atan2(-z, -y); // [0,2pi]
+                if (colorOption == 'off') {
+                    color = "#000000"
+                }
+                else {
+                    color = Colorwheel.getColor(phase);
+                }
+
+                if (i !== 0) {
+                    ctx.lineTo(plotCoord[0], plotCoord[1]);
+                    if (color !== prevColor) {
+                        ctx.stroke();
+                        ctx.closePath();
+                        ctx.beginPath();
+                        ctx.strokeStyle = color;
+                        ctx.moveTo(plotCoord[0], plotCoord[1]);
+                    }
+                }
+                else {
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    ctx.moveTo(plotCoord[0], plotCoord[1]);
+                }
+                var ringX = torusCoord[3][i][0];
+                var ringZ = torusCoord[3][i][1];
+                projX = this.coord2plot(ringX, 0, ringZ);
+                ctx.lineTo(projX[0], projX[1]);
+                ctx.moveTo(plotCoord[0], plotCoord[1]);
+                prevColor = color;
+            }
+            else {
+                ctx.lineTo(plotCoord[0], plotCoord[1]);
+            }
+        }
+        ctx.stroke();
+        ctx.closePath();
 
         ctx.strokeStyle = "#000000";
     }
@@ -187,24 +269,27 @@ angular.module('qmWaveApp')
         // return [x,y,z]
     }
 
-    this.animList = []
-
-    // rootScope.$watch(function() {return Timer.paused},
-    //   function(nv, ov) {
-    //     console.log(nv)
-    //     if (nv == true) {
-    //       console.log('pausing')
-    //       for (var i=0; i<self.animList.length; i++) {
-    //         self.animList[i].pause()
-    //       }
-    //     }
-    //     else {
-    //       console.log('resuming')
-    //       for (var i=0; i<self.animList.length; i++) {
-    //         self.animList[i].resume()
-    //       }
-    //     }
-    //   });
+    this.cartesian2torus = function(x, y, z) {
+        /* This maps out a correspondence from a 1D wavefunction to one where x[0] and x[-1] are connected(into a torus) */
+        var radius = this.radius;
+        var N = x.length;
+        var torusX = [];
+        var torusY = [];
+        var torusZ = [];
+        var translation = []
+        for (var i=0; i<=N; i++) {
+            var angle = 2 * Math.PI * i / (N-1);
+            var rotAngle = Math.PI / 2 - angle;
+            var transX = radius * Math.cos(angle - Math.PI);
+            var transZ = radius * Math.sin(angle - Math.PI);
+            var newVec = rotation(rotAngle, 0, 0, y[i], z[i]);
+            torusX[i] = newVec[0] + transX;
+            torusY[i] = newVec[1];
+            torusZ[i] = newVec[2] + transZ;
+            translation[i] = [transX, transZ]
+        }
+        return [torusX, torusY, torusZ, translation]
+    }
 
     this.initPhase = function(canvas, wave) {
         var phaseCircle = canvas.set()
@@ -246,7 +331,26 @@ angular.module('qmWaveApp')
           });
     }
 
-
+    this.drawCircle3D = function(ctx, radius, temp){
+        /* Given a circle's, position in 3space, will draw a perspectived circle on the canvas */
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        var N = 30;
+        for (var i=0; i<=N + 1; i++){
+            var angle = 2 * Math.PI * i / N;
+            var tempX = -radius * Math.cos(angle);
+            var tempZ = radius * Math.sin(angle);
+            var newPosn = this.coord2plot(tempX, 0, tempZ);
+            if (i != 1){
+                ctx.lineTo(newPosn[0], newPosn[1]);
+                ctx.stroke()
+            }
+            else
+                ctx.moveTo(newPosn[0], newPosn[1]);
+        }
+        ctx.closePath();
+        ctx.lineWidth = 2.5;
+    }
   }]);
 
 function rotation(theta, phi, x, y, z){
@@ -297,3 +401,4 @@ function apply_mat(mat, vec) {
           mat[1][0] * vec[0] + mat[1][1] * vec[1] + mat[1][2] * vec[2],
           mat[2][0] * vec[0] + mat[2][1] * vec[1] + mat[2][2] * vec[2]]
 }
+
