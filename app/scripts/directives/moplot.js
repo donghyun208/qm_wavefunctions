@@ -29,12 +29,12 @@ angular.module('qmWaveApp')
 
           // hard-code data
           scope.data = [
-            {energy:  2, degen:  0, vec: [ 0.40824829, -0.40824829,  0.40824829, -0.40824829,  0.40824829, -0.40824829]},
-            {energy:  1, degen:  1, vec: [ 0.57735027, -0.28867513, -0.28867513,  0.57735027, -0.28867513, -0.28867513]},
-            {energy:  1, degen: -1, vec: [ 0.0,        -0.5,         0.5,         0.0,        -0.5,         0.5       ]},
-            {energy: -1, degen:  1, vec: [-0.57735027, -0.28867513,  0.28867513,  0.57735027,  0.28867513, -0.28867513]},
-            {energy: -1, degen: -1, vec: [ 0.0,         0.5,         0.5,         0.0,        -0.5,        -0.5       ]},
-            {energy: -2, degen:  0, vec: [ 0.40824829,  0.40824829,  0.40824829,  0.40824829,  0.40824829,  0.40824829]}
+            {energy: -2, degen:  0, vec: [ 0.40824829,  0.40824829,  0.40824829,  0.40824829,  0.40824829,  0.40824829]},
+            {energy: -1, degen: -1, vec: [-0.57735027, -0.28867513,  0.28867513,  0.57735027,  0.28867513, -0.28867513]},
+            {energy: -1, degen:  1, vec: [ 0.0,         0.5,         0.5,         0.0,        -0.5,        -0.5       ]},
+            {energy:  1, degen: -1, vec: [ 0.57735027, -0.28867513, -0.28867513,  0.57735027, -0.28867513, -0.28867513]},
+            {energy:  1, degen:  1, vec: [ 0.0,        -0.5,         0.5,         0.0,        -0.5,         0.5       ]},
+            {energy:  2, degen:  0, vec: [ 0.40824829, -0.40824829,  0.40824829, -0.40824829,  0.40824829, -0.40824829]}
           ];
 
           // returns the proper x,y coordinate for all circles:
@@ -43,10 +43,14 @@ angular.module('qmWaveApp')
           // Watch for resize event
 
           var self = scope
+          var firsttime = 1
           scope.$watch(function() {
             return self.angle
           }, function(nv) {
-            scope.rerender(nv);
+            if (!firsttime) {
+              scope.rerender(nv);
+            }
+            firsttime = 0
           });
 
           // scope.$watch(function() {
@@ -64,7 +68,6 @@ angular.module('qmWaveApp')
                             [-0.866025,  0.5]];
           var hex_radius = 20;
 
-          var beta = -50;
           var degeneracy_offset = 60;
           var a0_radius = 20;
 
@@ -84,7 +87,7 @@ angular.module('qmWaveApp')
                   var phi1 = [ 0.57735027, -0.28867513, -0.28867513,  0.57735027, -0.28867513, -0.28867513]
                   var phi2 = [ 0.0,        -0.5,         0.5,         0.0,        -0.5,         0.5       ]
                 }
-                if (mo.degen === 1) {
+                if (mo.degen === -1) {
                   var psi = []
                   phi1 = phi1.map(function(x) {return x * mat[0][0]})
                   phi2 = phi2.map(function(x) {return x * mat[1][0]})
@@ -128,6 +131,22 @@ angular.module('qmWaveApp')
             //       .range([0, width]);
 
             // set the height based on the calculations above
+            var energyScale = d3.scale.linear()
+                              .domain([2,-2])
+                              .range([50, 250]);
+            var dataset = {"0": "\u03B1",
+                           "-1": "\u03B1 + \u03B2",
+                           "-2": "\u03B1 + 2\u03B2",
+                           "1": "\u03B1 - \u03B2",
+                           "2": "\u03B1 - 2\u03B2" }
+            var yAxis = d3.svg.axis()
+                  .scale(energyScale)
+                  .orient("left")
+                  .ticks(5)
+                  .tickFormat(function(d) {
+                    return dataset[d];
+                  })
+
 
 
             mo_group = svg.selectAll('g')
@@ -139,20 +158,36 @@ angular.module('qmWaveApp')
                 .data(mo.vec).enter()
                 .append('circle')
                 .attr('cx', function(coef, index) {
-                  var x = hex_coords[index][0] * hex_radius + 100;
+                  var x = hex_coords[index][0] * hex_radius + 160;
                   if (mo.degen !== 0) {
                     x += mo.degen * degeneracy_offset;
                   }
                   return x
                 })
                 .attr('cy', function(coef, index) {
-                  return hex_coords[index][1] * hex_radius + 150 + mo.energy * beta;
+                  return hex_coords[index][1] * hex_radius + energyScale(mo.energy);
                 })
                 .attr('fill', function(coef) { return color(Math.sign(coef)); })
                 .attr('r', 0)
                 .transition()
                 .duration(1000)
                 .attr('r', function(coef) { return Math.abs(coef) * a0_radius}) // use abs instead of pow so that the circle area corresponds to magnitude instead of circle radius
+                molecular_orbital
+
+                var subscripts = '₁₂₃₄₅₆'
+                var text = svg.append("foreignObject")
+                .attr("width",100)
+                .attr("height",100)
+                // text.text("$$\\psi_" + (index + 1)+ "$$")
+                text.text("\u03C8" + subscripts[index])
+                .attr('x', function(coef, index) {
+                  var x = 185;
+                  if (mo.degen !== 0) {
+                    x += mo.degen * degeneracy_offset;
+                  }
+                  return x
+                })
+                .attr('y', energyScale(mo.energy) - 12)
               })
             svg.selectAll('g')
               .append('g')
@@ -162,24 +197,24 @@ angular.module('qmWaveApp')
                 .data(mo.vec).enter()
                 .append('line')
                 .attr('x1', function(coef, index) {
-                  var x = hex_coords[index][0] * hex_radius + 100;
+                  var x = hex_coords[index][0] * hex_radius + 160;
                   if (mo.degen !== 0) {
                     x += mo.degen * degeneracy_offset;
                   }
                   return x
                 })
                 .attr('y1', function(coef, index) {
-                  return hex_coords[index][1] * hex_radius + 150 + mo.energy * beta;
+                  return hex_coords[index][1] * hex_radius + energyScale(mo.energy);
                 })
                 .attr('x2', function(coef, index) {
-                  var x = hex_coords[(index + 1) % 6][0] * hex_radius + 100;
+                  var x = hex_coords[(index + 1) % 6][0] * hex_radius + 160;
                   if (mo.degen !== 0) {
                     x += mo.degen * degeneracy_offset;
                   }
                   return x
                 })
                 .attr('y2', function(coef, index) {
-                  return hex_coords[(index + 1) % 6][1] * hex_radius + 150 + mo.energy * beta;
+                  return hex_coords[(index + 1) % 6][1] * hex_radius + energyScale(mo.energy);
                 })
                 .attr('stroke', "gray")
                 .attr('stroke-width', 0)
@@ -187,6 +222,10 @@ angular.module('qmWaveApp')
                 .duration(1000)
                 .attr('stroke-width', 1)
               })
+              .append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(" + 50 + ",0)")
+              .call(yAxis)
           };
 
           scope.render(scope.data)

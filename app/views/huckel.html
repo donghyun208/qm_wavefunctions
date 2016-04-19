@@ -1,5 +1,34 @@
+<div class="container">
+<div math>
+<h2>
+Huckel Theory
+</h2>
+We will write the Hamiltonian in a basis of $\phi_{p_z}$ atomic orbitals. For benzene, we only include the valence orbital from each of the six atoms:  $\{\phi_1, \phi_2, \phi_3, \phi_4, \phi_5, \phi_6\}$.
 
-<!-- <div class='container'# style="background-color:#f6f6f6" > -->
+We define the following integrals:
+$$\langle\phi_i|H|\phi_i\rangle = \alpha \qquad \langle\phi_i|\phi_i\rangle = \delta_{i,j}$$
+If $\phi_i$ and $\phi_j$ are neighboring atoms, then $$\langle\phi_i|H|\phi_j\rangle = \beta$$
+
+<div style="font-size: 133%;">
+$$
+H =
+\left[
+\begin{array}{cccccc} \alpha & \beta & 0 & 0 & 0 & \beta \\
+\beta & \alpha & \beta & 0 & 0 & 0\\
+0 & \beta & \alpha & \beta & 0 & 0\\
+0 & 0 & \beta & \alpha & \beta & 0\\
+0 & 0 & 0 & \beta & \alpha & \beta\\
+\beta & 0 & 0 & 0 & \beta & \alpha
+\end{array}
+\right]
+$$
+</div>
+
+
+<h2>
+Results:
+</h2>
+
 <div class='container'>
 <div mo-plot angle="mix_angle" plot-width="300" plot-height="300" plot-padding="5"></div>
 <div class="center-block">
@@ -7,4 +36,26 @@
     <!-- <degen-slider angle="angle.value"></degen-slider> -->
     <rzslider rz-slider-model="mix_angle" rz-slider-options=slider></rzslider>
 </div>
+</div>
+<br>
+
+<h2>
+Degenerate Eigenstates
+</h2>
+$\psi_1$ and $\psi_6$ have unique eigenvalues, but $\psi_2$ and $\psi_3$ are degenerate with the eigenvalue $\alpha + \beta$, and  $\psi_4$ and $\psi_5$ are degenerate with the eigenvalue $\alpha - \beta$.
+We can prove that linear combinations of degenerate eigenstates are also valid eigenstates of the Hamiltonian:
+$$
+\begin{align}
+H\psi_\text{mix} &= H(c_2\psi_2 + c_3\psi_3)\\
+&= c_2 H\psi_2 + c_3 H\psi_3\\
+&= c_2(\alpha + \beta)\psi_2 + c_3(\alpha + \beta)\psi_3\\
+&= (\alpha + \beta)(c_2\psi_2 + c_3\psi_3)\\
+H\psi_\text{mix} &= (\alpha + \beta)\psi_\text{mix}
+\end{align}
+$$
+
+Slide the mix angle bar to see how the degenerate eigenstates mix. Notice what happens every $60^\circ$.
+We will find that for degenerate perturbation theory, the correct zeroth order wavefunctions to use are the ones with the proper mixing angle such that the degenerate energy splitting is maximized.
+
+</div math>
 </div>
