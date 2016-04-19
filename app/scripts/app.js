@@ -72,6 +72,12 @@ angular
         controller: 'RingDemoCtrl',
         controllerAs: 'RingDemo'
       })
+      .state('huckel', {
+        url: '/huckel',
+        templateUrl: 'views/huckel.html',
+        controller: 'HuckelCtrl',
+        controllerAs: 'HuckelCtrl',
+      })
       .state('contact', {
         url: '/contact',
         templateUrl: 'views/contact.html'
