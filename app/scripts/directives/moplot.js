@@ -12,7 +12,8 @@ angular.module('qmWaveApp')
     return {
       restrict: 'EA',
       scope: {eig: '=',
-              angle: '='},
+              angle: '=',
+              plotNodes: '='},
       link: function(scope, element, attrs) {
         // d3Service.d3().then(function(d3) {
         if (1) {
@@ -125,22 +126,24 @@ angular.module('qmWaveApp')
                 molecular_orbital = d3.select(this);
 
                 // NODE lines
-                molecular_orbital
-                .selectAll('line')
-                .data(mo.nodes).enter()
-                .append('line')
-                .attr('class', 'nodalPlane')
-                .attr('x1', function(angle, index) {return  angle_to_line_segment(angle)[0] * (hex_radius * 1.3)})
-                .attr('y1', function(angle, index) {return  angle_to_line_segment(angle)[1] * (hex_radius * 1.3)})
-                .attr('x2', function(angle, index) {return -angle_to_line_segment(angle)[0] * (hex_radius * 1.3)})
-                .attr('y2', function(angle, index) {return -angle_to_line_segment(angle)[1] * (hex_radius * 1.3)})
-                .attr('stroke', "red")
-                .style("stroke-dasharray", ("3, 3"))
-                .style("stroke-opacity", 0.7)
-                .attr('stroke-width', 0)
-                .transition()
-                .duration(2000)
-                .attr('stroke-width', 1.5)
+                if (scope.plotNodes) {
+                  molecular_orbital
+                  .selectAll('line')
+                  .data(mo.nodes).enter()
+                  .append('line')
+                  .attr('class', 'nodalPlane')
+                  .attr('x1', function(angle, index) {return  angle_to_line_segment(angle)[0] * (hex_radius * 1.3)})
+                  .attr('y1', function(angle, index) {return  angle_to_line_segment(angle)[1] * (hex_radius * 1.3)})
+                  .attr('x2', function(angle, index) {return -angle_to_line_segment(angle)[0] * (hex_radius * 1.3)})
+                  .attr('y2', function(angle, index) {return -angle_to_line_segment(angle)[1] * (hex_radius * 1.3)})
+                  .attr('stroke', "red")
+                  .style("stroke-dasharray", ("3, 3"))
+                  .style("stroke-opacity", 0.7)
+                  .attr('stroke-width', 0)
+                  .transition()
+                  .duration(2000)
+                  .attr('stroke-width', 1.5)
+                }
 
                 // LOBE circles
                 molecular_orbital
